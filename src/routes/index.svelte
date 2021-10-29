@@ -20,7 +20,9 @@
 
 <main>
 	<Time></Time>
+    <hr>
     <Weather></Weather>
+    <!-- <hr> -->
 </main>
 
 
