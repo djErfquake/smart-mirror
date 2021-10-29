@@ -1,23 +1,7 @@
-<!-- <script context="module"> -->
 <script>
-    // import fetch from 'node-fetch';
+    import Time from '../components/Time.svelte';
+    import Weather from '../components/Weather.svelte';
 
-     import Time from '../components/Time.svelte';
-    // import Weather from '../components/Weather.svelte';
-
-
-    let weather = {
-        // promise: null,
-        // fetchWeatherData: async function() {
-        //     const res = await fetch('data/weather');
-        //     const data = await res.json();
-        //     if (res.ok) { return data; }
-        //     else { throw new Error(res.text); }
-        // },
-        update: function() {
-            // this.promise = this.fetchWeatherData();
-        }
-    };
 
     // // create and start updates
     // let updates = [
@@ -36,7 +20,7 @@
 
 <main>
 	<Time></Time>
-    <!-- <Weather></Weather> -->
+    <Weather></Weather>
 </main>
 
 
@@ -47,7 +31,6 @@
 
     :global(body) {
         text-rendering: optimizeLegibility;
-        background-color: black;
     }
 
     :global(#sapper) {
