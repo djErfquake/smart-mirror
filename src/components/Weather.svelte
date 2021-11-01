@@ -7,7 +7,6 @@
     import WeatherIcons from './icons/WeatherIcons.svelte';
 
     let duration = 1000 * 60 * 15; // 15 minutes
-
     let promise;
 
     const weatherIcons = {
