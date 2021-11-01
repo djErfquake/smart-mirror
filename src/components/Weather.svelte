@@ -3,8 +3,26 @@
     // https://erikflowers.github.io/weather-icons/
 
     import moment from 'moment';
-    import { DaySunny, NightClear, Rain, Snow, Sleet, Windy, Fog, Cloudy, DayCloudy, NightAltCloudy, Hail, Thunderstorm, Tornado, Raindrop, SnowflakeCold, Umbrella } from './icons/WeatherIcons';
+    import config from '../config/config';
     import WeatherIcons from './icons/WeatherIcons.svelte';
+    import { 
+        DaySunny, 
+        NightClear, 
+        Rain, 
+        Snow, 
+        Sleet, 
+        Windy, 
+        Fog, 
+        Cloudy,
+        DayCloudy,
+        NightAltCloudy, 
+        Hail, 
+        Thunderstorm, 
+        Tornado, 
+        Raindrop, 
+        SnowflakeCold,
+        Umbrella } 
+    from './icons/WeatherIcons';
 
     let duration = 1000 * 60 * 15; // 15 minutes
     let promise;
@@ -39,7 +57,7 @@
     
 
     async function fetchWeatherData() {
-        const res = await fetch('data/weather');
+        const res = await fetch(`data/weather/${config.weather.location}`);
         const data = await res.json();
         if (res.ok) {
             const precipitationInfo = data.hourly.data.find(h => h.precipType == "rain" && h.precipProbability > 0.4);

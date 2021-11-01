@@ -1,6 +1,6 @@
 <script>
     import moment from 'moment';
-    import config from '../config/config'
+    import config from '../config/config';
 
     const DURATION = 1000 * 60 * 60; // every hour
     const EVENTS_TO_SHOW = 5;
@@ -18,7 +18,6 @@
     }
 
     async function initializeGoogleClient(googleCalendarClientId) {
-        console.log("initializing google client with key " + googleCalendarClientId);
         await new Promise(resolve => {
             gapi.load('client:auth2', () => {
                 gapi.client.init({
@@ -75,7 +74,6 @@
             });
             allEvents = allEvents.concat(calendarItems);
         });
-        console.log('events', allEvents);
     }
     
     async function load() {
