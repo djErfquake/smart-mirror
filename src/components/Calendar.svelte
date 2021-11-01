@@ -1,5 +1,37 @@
 <script>
     import moment from 'moment';
+    import Fa from 'svelte-fa';
+    import {
+        faBirthdayCake,
+        faPlane,
+        // faRebel,
+        faLaughBeam,
+        faVideo,
+        faImages,
+        faGuitar,
+        faSuitcaseRolling,
+        faHeart,
+        faDrumstickBite,
+        faGhost,
+        faDice,
+        faDiceD20,
+        faFootballBall,
+        faHockeyPuck,
+        faFutbol,
+        faTree,
+        faUtensils,
+        faBeer,
+        faGift,
+        faBook,
+        faFilm,
+        faClock,
+        faPaw,
+        faTooth,
+        faEye,
+        faStethoscope,
+        faVoteYea,
+        faCalendar
+    } from '@fortawesome/free-solid-svg-icons';
     import config from '../config/config';
 
     const DURATION = 1000 * 60 * 60; // every hour
@@ -10,6 +42,64 @@
     $: calendarEvents = allEvents.sort((a, b) => a.timeUntil - b.timeUntil).slice(0, EVENTS_TO_SHOW);;
 
     const calendarIds = config.calendar.ids;
+    const icons = {
+        'birthday': faBirthdayCake,
+        'bday': faBirthdayCake,
+        'flight': faPlane,
+        // 'star wars': faRebel,
+        'friend': faLaughBeam,
+        'zoom': faVideo,
+        'scrapbook': faImages,
+        'concert': faGuitar,
+        'vacation': faSuitcaseRolling,
+        'anniversary': faHeart,
+        'valentine': faHeart,
+        'thanksgiving': faDrumstickBite,
+        'friendsgiving': faDrumstickBite,
+        'halloween': faGhost,
+        'trick or treat': faGhost,
+        'game': faDice,
+        'd&d': faDiceD20,
+        'dnd': faDiceD20,
+        'football': faFootballBall,
+        'buckeye': faFootballBall,
+        'browns': faFootballBall,
+        'hockey': faHockeyPuck,
+        'bluejacket': faHockeyPuck,
+        'soccer': faFutbol,
+        'crew': faFutbol,
+        'arsenal': faFutbol,
+        'fulham': faFutbol,
+        'christmas': faTree,
+        'xmas': faTree,
+        'holiday': faTree,
+        'dinner': faUtensils,
+        'lunch': faUtensils,
+        'brunch': faUtensils,
+        'drinks': faBeer,
+        'brewery': faBeer,
+        'shower': faGift,
+        'bible': faBook,
+        'movie': faFilm,
+        'daylight saving': faClock,
+        'darcy': faPaw,
+        'dentist': faTooth,
+        'eye': faEye,
+        'doctor': faStethoscope,
+        'dr': faStethoscope,
+        'obgyn': faStethoscope,
+        'appointment': faStethoscope,
+        'appt': faStethoscope,
+        'election': faVoteYea
+        // default to faCalendar
+    };
+    function getIcon(title) {
+        const applicableIcons = Object.entries(icons).filter(i => title.toLowerCase().includes(i[0]));
+        if (applicableIcons.length > 0) {
+            return applicableIcons[0][1];
+        }
+        return faCalendar;
+    }
 
     async function getGoogleCalendarClientId() {
         const res = await fetch('data/calendar/getClientId');
@@ -68,6 +158,7 @@
                 return {
                     id: i.id,
                     name: i.summary,
+                    icon: getIcon(i.summary),
                     timeUntil: startMoment,
                     start: startMoment.fromNow().includes("ago") ? "Today" : startMoment.fromNow()
                 }
@@ -99,7 +190,9 @@
     {:else}
         {#each calendarEvents as event}
         <div class="event">
-            <div class="event-icon"></div>
+            <div class="event-icon">
+                <Fa icon={event.icon} primaryColor='#ffffff' size='6vh'></Fa>
+            </div>
             <div class="event-details">
                 <div class="event-name">{event.name}</div>
                 <div class="event-timeframe">{event.start}</div>
@@ -112,29 +205,35 @@
 
 <style>
 .calendar-container {
-  padding-left: 20vw;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: flex-start;
+    padding-left: 20vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .event {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .event:not(:last-child) {
-  padding-bottom: 2vh;
+    padding-bottom: 2vh;
 }
 
 
 .event-icon {
-  font-size: 5vh;
-  padding-right: 2vw;
+    width: 8vh;
+    height: 8vh;
+    padding: 10px;
+    text-align: center;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .event-name {
-  font-size: 3vh;
+    font-size: 3vh;
 }
 </style>

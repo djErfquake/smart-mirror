@@ -5,7 +5,7 @@ module.exports = {
     calendar: {
         ids: [
             "u2tg5n608ntdtifovljih1m4uo@group.calendar.google.com", // family calendar
-            "en.usa#holiday@group.v.calendar.google.com" // us holidays
+            "en.usa#holiday@group.v.calendar.google.com" // us holidays,
         ]
     }
 };
