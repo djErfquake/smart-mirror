@@ -45,9 +45,20 @@
         height: 100%;
         display: grid;
         grid-template: 
-            "time time" auto
+            "time time"
             "calendar weather"
+    }
 
+    .time {
+        grid-area: time;
+    }
+
+    .weather {
+        grid-area: weather;
+    }
+
+    .calendar {
+        grid-area: calendar;
     }
 
     
