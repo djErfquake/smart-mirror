@@ -41,7 +41,7 @@
     let allEvents = [];
     $: calendarEvents = allEvents.sort((a, b) => a.timeUntil - b.timeUntil).slice(0, EVENTS_TO_SHOW);;
 
-    const calendarIds = config.calendar.ids;
+    const calendarIds = config.calendar.ids.concat(config.calendar.sportIds);
     const icons = {
         'birthday': faBirthdayCake,
         'bday': faBirthdayCake,
@@ -101,6 +101,10 @@
         return faCalendar;
     }
 
+    function stripEmojis(text) {
+        return text.replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')
+    }
+
     async function getGoogleCalendarClientId() {
         const res = await fetch('data/calendar/getClientId');
         const data = await res.json();
@@ -119,7 +123,6 @@
                 });
             });
         });
-        
     }
 
     async function signInToGoogle() {
@@ -128,11 +131,13 @@
     }
 
     async function fetchGoogleCalendarData() {
-        console.log('updating calendar');
-        
+        // // get all calendars
+        // const calenderRequest = gapi.client.calendar.calendarList.list({ maxResults: 250, minAccessRole: 'reader', showHidden: true });
+        // calenderRequest.execute((data) => { console.log(data); });
+
+
+        console.log('updating calendar');  
         let calendarPromises = [];
-        
-        
         const now = new Date();
         calendarIds.forEach(id => {
             const calenderRequest = gapi.client.calendar.events.list({
@@ -154,13 +159,29 @@
         console.log("all calendar items", result);
         result.forEach(data => {
             let calendarItems = data.items.slice(0, EVENTS_TO_SHOW).map(i => {
-                let startMoment = i.start.date ? new moment(i.start.date) : new moment(i.start.dateTime);
+
+                let startMoment;
+                let startText = "";
+                if (i.start.date) {
+                    startMoment = new moment(i.start.date);
+                    startText = startMoment.format("dddd");
+                    let todayMoment = new moment();
+                    if (todayMoment.isSame(startMoment, 'date')) {
+                        startText = "Today";
+                    }
+                }
+                else {
+                    startMoment = new moment(i.start.dateTime);
+                    startText = startMoment.fromNow();
+                }
+                startText = startText.includes("ago") ? "Now": startText;
+
                 return {
                     id: i.id,
-                    name: i.summary,
+                    name: stripEmojis(i.summary),
                     icon: getIcon(i.summary),
                     timeUntil: startMoment,
-                    start: startMoment.fromNow().includes("ago") ? "Today" : startMoment.fromNow()
+                    start: startText
                 }
             });
             allEvents = allEvents.concat(calendarItems);
@@ -172,7 +193,7 @@
         await initializeGoogleClient(googleCalendarClientId);
         await signInToGoogle();
         await fetchGoogleCalendarData();
-        // setInterval(fetchGoogleCalendarData, DURATION);
+        setInterval(fetchGoogleCalendarData, DURATION);
     }
 
     
