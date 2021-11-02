@@ -41,7 +41,7 @@
     let allEvents = [];
     $: calendarEvents = allEvents.sort((a, b) => a.timeUntil - b.timeUntil).slice(0, EVENTS_TO_SHOW);;
 
-    const calendarIds = config.calendar.ids.concat(config.calendar.sportIds);
+    const calendarIds = config.calendar.ids.concat(config.calendar.sportsIds);
     const icons = {
         'birthday': faBirthdayCake,
         'bday': faBirthdayCake,
@@ -65,7 +65,8 @@
         'buckeye': faFootballBall,
         'browns': faFootballBall,
         'hockey': faHockeyPuck,
-        'bluejacket': faHockeyPuck,
+        'blue jackets': faHockeyPuck,
+        'bluejackets': faHockeyPuck,
         'soccer': faFutbol,
         'crew': faFutbol,
         'arsenal': faFutbol,
@@ -162,17 +163,25 @@
 
                 let startMoment;
                 let startText = "";
-                if (i.start.date) {
+                const isFullDay = i.start.date != undefined;
+                
+                if (isFullDay) {
                     startMoment = new moment(i.start.date);
                     startText = startMoment.format("dddd");
                     let todayMoment = new moment();
-                    if (todayMoment.isSame(startMoment, 'date')) {
+                    const isToday = todayMoment.isSame(startMoment, 'date');
+                    if (isToday) {
                         startText = "Today";
                     }
                 }
                 else {
                     startMoment = new moment(i.start.dateTime);
-                    startText = startMoment.fromNow();
+                    startText = `${startMoment.format("dddd")} at ${startMoment.format("LT")}`;
+                    let todayMoment = new moment();
+                    const isToday = todayMoment.isSame(startMoment, 'date');
+                    if (isToday) {
+                        startText = startMoment.fromNow();
+                    }
                 }
                 startText = startText.includes("ago") ? "Now": startText;
 

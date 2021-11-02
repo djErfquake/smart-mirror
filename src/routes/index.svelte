@@ -12,11 +12,15 @@
 </svelte:head>
 
 <main>
-	<!-- <Time></Time>
-    <hr>
-    <Weather></Weather>
-    <hr> -->
-    <Calendar></Calendar>
+    <div class="time">
+        <Time></Time>
+    </div>
+    <div class="calendar">
+        <Calendar></Calendar>
+    </div>
+    <div class="weather">
+        <Weather></Weather>
+    </div>
 </main>
 
 
@@ -39,7 +43,11 @@
 
     main {
         height: 100%;
-        
+        display: grid;
+        grid-template: 
+            "time time" auto
+            "calendar weather"
+
     }
 
     
