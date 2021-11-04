@@ -4,6 +4,7 @@
 
     import moment from 'moment';
     import config from '../config/config';
+    import LineLoader from './loaders/LineLoader.svelte';
     import WeatherIcons from './icons/WeatherIcons.svelte';
     import { 
         DaySunny, 
@@ -102,7 +103,7 @@
 
 <div class="weather-container">
     {#await promise}
-    <div>Loading...</div>
+      <LineLoader></LineLoader>
     {:then weather}
         {#if weather}
         <div class='main'>
@@ -148,6 +149,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
 
 .main {

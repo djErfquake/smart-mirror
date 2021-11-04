@@ -217,7 +217,6 @@
 
 <div class="calendar-container">
     {#if calendarEvents.length == 0}
-        <!-- <div>Loading...</div> -->
         <LineLoader></LineLoader>
     {:else}
         {#each calendarEvents as event}
