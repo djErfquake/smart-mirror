@@ -29,11 +29,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding-bottom: 5vh;
     }
 
     .clock {
         font-size: 18vh;
+        margin-bottom: -3vh;
     }
 
     .date {

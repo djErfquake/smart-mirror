@@ -60,26 +60,29 @@
         const res = await fetch(`data/weather/${config.weather.location}`);
         const data = await res.json();
         if (res.ok) {
-            const precipitationInfo = data.hourly.data.find(h => h.precipType == "rain" && h.precipProbability > 0.4);
-            if (precipitationInfo) {
-                precipitationInfo.timeDisplay = moment.unix(precipitationInfo.time).format('h a');
-            }
+          console.log('weather', data);
 
-            const weather = {
-                temperature: {
-                    number: `${Math.round(data.currently.temperature)}°`,
-                    icon: GetWeatherIcon(data.currently.icon),
-                    description: data.hourly.summary,
-                    highAndLow: `${Math.round(data.daily.data[0].apparentTemperatureHigh)}°/${Math.round(data.daily.data[0].apparentTemperatureLow)}°`
-                },
-                precipitation: {
-                    probability: `${Math.round(data.daily.data[0].precipProbability * 100)}%`,
-                    icon: GetPrecipitationIcon(data.daily.data[0].precipType),
-                    info: precipitationInfo
-                }
-            };
-            console.log('weather', weather);
-            return weather;
+          const precipitationInfo = data.hourly.data.find(h => h.precipType == "rain" && h.precipProbability > 0.4);
+          if (precipitationInfo) {
+              precipitationInfo.timeDisplay = moment.unix(precipitationInfo.time).format('h a');
+          }
+
+          const weather = {
+              temperature: {
+                  number: Math.round(data.currently.temperature),
+                  icon: GetWeatherIcon(data.currently.icon),
+                  description: data.hourly.summary,
+                  feelsLike: Math.round(data.currently.apparentTemperature),
+                  high: Math.round(data.daily.data[0].apparentTemperatureHigh),
+                  low: Math.round(data.daily.data[0].apparentTemperatureLow)
+              },
+              precipitation: {
+                  probability: `${Math.round(data.daily.data[0].precipProbability * 100)}%`,
+                  icon: GetPrecipitationIcon(data.daily.data[0].precipType),
+                  info: precipitationInfo
+              }
+          };
+          return weather;
         }
         else { throw new Error(res.text); }
     }
@@ -101,32 +104,36 @@
     {#await promise}
     <div>Loading...</div>
     {:then weather}
-        <!-- {@debug weather} -->
-        <!-- {JSON.stringify(weather)} -->
         {#if weather}
-        <div class='temperature-main'>
+        <div class='main'>
             <WeatherIcons color="#ffffff" size="35vh" d={weather.temperature.icon}></WeatherIcons>
-            <div class='temperature-number'>{weather.temperature.number}</div>
+            <div class='main-number'>{weather.temperature.number}°</div>
         </div>
-        <div class='temperature-extras'>
-            <div class='temperature-high-and-low'>{weather.temperature.highAndLow}</div>
 
-            {#if weather.precipitation.info}
-            <div class='temperature-percipitation-time-container'>
-            <div class="temperature-percipitation-time-icon">
+        <div class='extras'>
+            <div class="feels-like">Feels Like: {weather.temperature.feelsLike}°</div>
+            <div class="high-low">High: {weather.temperature.high}°</div>
+            <div class="high-low">Low: {weather.temperature.low}°</div>
+        </div>
+
+        {#if weather.precipitation.info}
+        <div class='precipitation'>
+            <div class='precipitation-time-container'>
+            <div class="precipitation-time-icon">
                 <WeatherIcons color="#ffffff" size="8vh" d={Umbrella}></WeatherIcons>
             </div>
-            <div class='temperature-percipitation-time'>{weather.precipitation.info.timeDisplay}</div>
+            <div class='precipitation-time'>{weather.precipitation.info.timeDisplay}</div>
             </div>
-            <div class='temperature-percipitation-container'>
-            <div class='temperature-percipitation-icon'>
+            <div class='precipitation-container'>
+            <div class='precipitation-icon'>
                 <WeatherIcons color="#ffffff" size="8vh" d={weather.precipitation.icon}></WeatherIcons>
             </div>
-            <div class='temperature-percipitation'>{weather.precipitation.probability}</div>
+            <div class='precipitation'>{weather.precipitation.probability}</div>
             </div>
-            {/if}
         </div>
-        <div class='temperature-description'>{weather.temperature.description}</div>
+        {/if}
+
+        <div class='description'>{weather.temperature.description}</div>
         <!-- <div class='temperature-sub-container'></div> -->
         {/if}
     {:catch error}
@@ -137,91 +144,60 @@
 
 <style>
 .weather-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-.temperature-main {
-  display: flex;
-  justify-content: center;
+.main {
+    display: flex;
+    justify-content: center;
 }
 
-.temperature-number {
-  margin-left: 3vw;
-  font-size: 20vh;
-  padding-top: 3vh;
+.main-number {
+    margin-left: 2vw;
+    font-size: 20vh;
 }
 
-.temperature-description {
-  padding-top: 2vh;
-  font-weight: 300;
-  font-size: 5vh;
+.description {
+    font-weight: 300;
+    font-size: 5vh;
+    margin-top: 5vh;
 }
 
-.temperature-extras {
-  display: flex;
-  font-size: 4vh;
-  padding-top: 3vh;
+.extras {
+    font-size: 4vh;
+    width: 90%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: -4vh;
 }
 
-.temperature-high-and-low {
+.precipitation {
+    font-size: 4vh;
+    width: 90%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.precipitation-time-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.precipitation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.precipitation-icon {
     padding-top: 1vh;
-    padding-right: 6vw;
 }
-
-.temperature-percipitation-time-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 6vw;
-}
-
-.temperature-percipitation-time-icon {
-  margin-right: 1vh;
-}
-
-.temperature-percipitation-time {
-  padding-bottom: 2vh;
-}
-
-.temperature-percipitation-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.temperature-percipitation-icon {
-  align-self: flex-end;
-  margin-right: 1vh;
-}
-
-.temperature-percipitation {
-  padding-bottom: 2vh;
-}
-
-/* .temperature-sub-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 5vh;
-}
-
-.temperature-sub {
-  padding-top: 3vh;
-  padding-left: 1vw;
-  padding-right: 1vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.temperature-sub-day {
-  font-size: 3vh;
-}
-
-.temperature-sub-icon {
-  padding-top: 2vh;
-} */
 </style>

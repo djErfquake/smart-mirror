@@ -235,11 +235,7 @@
 
 <style>
 .calendar-container {
-    padding-left: 20vw;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
+    padding-left: 5vw;
 }
 
 .event {
@@ -247,9 +243,9 @@
     align-items: center;
 }
 
-.event:not(:last-child) {
+/* .event:not(:last-child) {
     padding-bottom: 2vh;
-}
+} */
 
 
 .event-icon {
@@ -257,13 +253,17 @@
     height: 8vh;
     padding: 10px;
     text-align: center;
-    margin-right: 15px;
+    margin-right: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .event-name {
-    font-size: 3vh;
+    font-size: 4vh;
+}
+
+.event-timeframe {
+    font-size: 2.5vh;
 }
 </style>

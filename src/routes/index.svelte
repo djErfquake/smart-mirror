@@ -55,10 +55,12 @@
 
     .weather {
         grid-area: weather;
+        width: 60vw;
     }
 
     .calendar {
         grid-area: calendar;
+        width: 40vw;
     }
 
     
