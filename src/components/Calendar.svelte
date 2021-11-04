@@ -33,6 +33,7 @@
         faCalendar
     } from '@fortawesome/free-solid-svg-icons';
     import config from '../config/config';
+    import LineLoader from './loaders/LineLoader.svelte';
 
     const DURATION = 1000 * 60 * 60; // every hour
     const EVENTS_TO_SHOW = 5;
@@ -216,7 +217,8 @@
 
 <div class="calendar-container">
     {#if calendarEvents.length == 0}
-        <div>Loading...</div>
+        <!-- <div>Loading...</div> -->
+        <LineLoader></LineLoader>
     {:else}
         {#each calendarEvents as event}
         <div class="event">
@@ -236,6 +238,7 @@
 <style>
 .calendar-container {
     padding-left: 5vw;
+    height: 100%;
 }
 
 .event {
