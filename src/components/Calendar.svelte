@@ -42,7 +42,8 @@
     let allEvents = [];
     $: calendarEvents = allEvents.sort((a, b) => a.timeUntil - b.timeUntil).slice(0, EVENTS_TO_SHOW);;
 
-    const calendarIds = config.calendar.ids.concat(config.calendar.sportsIds);
+    // const calendarIds = config.calendar.ids.concat(config.calendar.sportsIds);
+    const calendarIds = config.calendar.ids;
     const icons = {
         'birthday': faBirthdayCake,
         'bday': faBirthdayCake,
@@ -137,8 +138,7 @@
         // const calenderRequest = gapi.client.calendar.calendarList.list({ maxResults: 250, minAccessRole: 'reader', showHidden: true });
         // calenderRequest.execute((data) => { console.log(data); });
 
-
-        console.log('updating calendar');  
+        // get calendar events for all calendars
         let calendarPromises = [];
         const now = new Date();
         calendarIds.forEach(id => {

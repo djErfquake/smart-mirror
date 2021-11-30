@@ -6,7 +6,7 @@ dotenv.config();
 
 export async function get(req, res) {
     const url = `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${config.weather.location}`
-    console.log(`fetching ${url}`);
+    // console.log(`fetching ${url}`);
     try {
         const response = await fetch(url);
         if (!response.ok) {

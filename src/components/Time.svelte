@@ -1,7 +1,7 @@
 <script>
     import moment from 'moment';
 
-    let duration = 1000 * 5; // 5 seconds
+    const duration = 1000 * 5; // 5 seconds
     let clock = "";
     let date = "";
 

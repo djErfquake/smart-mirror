@@ -3,6 +3,20 @@
     import Weather from '../components/Weather.svelte';
     import Calendar from '../components/Calendar.svelte';
 
+    const DURATION = 1000 * 60; // 1 minute
+    const Slides = [
+        { name : "all", grid: `"time time" "calendar weather"`, widths: { weather: "60vw", calendar: "40vw" } },
+        { name : "weather", grid: `"time time" "weather weather"`, widths: { weather: "100%", calendar: "0" } },
+        { name : "calendar", grid: `"time time" "calendar calendar"`, widths: { weather: "0", calendar: "100%" } }
+    ];
+    let slideIndex = 0;
+    $: showWeather = Slides[slideIndex].grid.includes('weather');
+    $: showCalendar = Slides[slideIndex].grid.includes('calendar');
+
+    // setInterval(() => {
+    //     slideIndex++; if (slideIndex >= Slides.length) { slideIndex = 0; }
+    // }, DURATION);
+
 </script>
 
 
@@ -11,14 +25,14 @@
 	<title>Smart Mirror</title>
 </svelte:head>
 
-<main>
+<main style="grid-template-areas: {Slides[slideIndex].grid};">
     <div class="time">
         <Time></Time>
     </div>
-    <div class="calendar">
+    <div class="calendar" style="display: {showCalendar ? 'block' : 'none'}; width: {Slides[slideIndex].widths.calendar};">
         <Calendar></Calendar>
     </div>
-    <div class="weather">
+    <div class="weather" style="display: {showWeather ? 'block' : 'none'}; width: {Slides[slideIndex].widths.weather};">
         <Weather></Weather>
     </div>
 </main>
@@ -44,9 +58,9 @@
     main {
         height: 100%;
         display: grid;
-        grid-template: 
+        /* grid-template: 
             "time time"
-            "calendar weather"
+            "calendar weather" */
     }
 
     .time {
