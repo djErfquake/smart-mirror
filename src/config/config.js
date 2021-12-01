@@ -8,7 +8,7 @@ module.exports = {
             "i8p7efmhplu1aqe61pbkc9g62c@group.calendar.google.com", // birthdays
             "en.usa#holiday@group.v.calendar.google.com", // us holidays
         ],
-        sportsIds: [
+        additionalIds: [
             // "3p1chb92liscr5qsg2vn9gkin70i2u6n@import.calendar.google.com", // arsenal
             // "5t3rsn78qdjc2fcfl2srf22ha9611tes@import.calendar.google.com", // fulham
             // "nfl_5_%43leveland+%42rowns#sports@group.v.calendar.google.com", // cleveland browns
