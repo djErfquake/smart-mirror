@@ -30,6 +30,9 @@
         faEye,
         faStethoscope,
         faVoteYea,
+        faBoxOpen,
+        faGlassCheers,
+        faCocktail,
         faCalendar
     } from '@fortawesome/free-solid-svg-icons';
     import config from '../config/config';
@@ -93,7 +96,10 @@
         'obgyn': faStethoscope,
         'appointment': faStethoscope,
         'appt': faStethoscope,
-        'election': faVoteYea
+        'election': faVoteYea,
+        'move': faBoxOpen,
+        'fest': faGlassCheers,
+        'happy hour': faCocktail
         // default to faCalendar
     };
     function getIcon(title) {
