@@ -1,9 +1,9 @@
 {
 	"background_color": "#ffffff",
-	"theme_color": "#333333",
-	"name": "TODO",
-	"short_name": "TODO",
-	"display": "minimal-ui",
+	"theme_color": "#000000",
+	"name": "Smart Mirror",
+	"short_name": "smart-mirror",
+	"display": "smart-mirror",
 	"start_url": "/",
 	"icons": [
 		{
